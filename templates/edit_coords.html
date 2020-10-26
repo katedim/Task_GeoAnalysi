@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="card text-white bg-dark mt-5 mx-auto" style="max-width: 30em">
+    <div class="card-body">
+      <h4 class="card-title">
+        Edit an Existing Set of Coordinates
+      </h4>
+      <form id="edit_form">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.name.label }} {{ form.name(class_="form-control", placeholder="Enter a photo name") }}
+        </div>
+        <div class="form-group">
+          {{ form.lot.label }} {{ form.lot(class_="form-control", placeholder="Enter Longtitude") }}
+        </div>
+        <div class="form-group">
+          {{ form.lan.label }} {{ form.lan(class_="form-control", placeholder="Enter Latitude") }}
+        </div>
+        <input type="submit" value="Update" class="btn btn-light">
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+      document.getElementById('edit_form').addEventListener('submit', function (event) {
+          event.preventDefault();
+          const id = event.target[0].value;
+          const name = event.target[2].value;
+          const lot = event.target[3].value;
+          const lan = event.target[4].value;
+          const httpRequest = new XMLHttpRequest();
+          httpRequest.onreadystatechange = function () {
+              if (this.readyState === 4 && this.status === 200) {
+                  window.location.replace('http://127.0.0.1:5000/geodata')
+              }
+          }
+          httpRequest.open('PUT', 'http://127.0.0.1:5000/geodata/' + id)
+          httpRequest.setRequestHeader('Content-Type', 'application/json;charset=UTF-8"');
+          httpRequest.send(JSON.stringify({"name": name, "lot": lot, "lan": lan}));
+      })
+  </script>
+{% endblock %}

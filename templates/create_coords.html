@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger mt-5">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <div class="card text-white bg-dark mt-5 mx-auto" style="max-width: 30em">
+    <div class="card-body">
+      <h4 class="card-title">
+        Create a New Coordinates Set
+      </h4>
+      <form action="{{ url_for('geodata') }}" method="POST">
+        {{ form.csrf_token }}
+        <div class="form-group">
+          {{ form.name.label }} {{ form.name(class_="form-control", placeholder="Enter a photo name") }}
+        </div>
+        <div class="form-group">
+          {{ form.lot.label }} {{ form.lot(class_="form-control", placeholder="Enter Longtitude") }}
+        </div>
+        <div class="form-group">
+          {{ form.lan.label }} {{ form.lan(class_="form-control", placeholder="Enter Latitude") }}
+        </div>
+        <input type="submit" value="Create" class="btn btn-success">
+      </form>
+    </div>
+  </div>
+{% endblock %}
